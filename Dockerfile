@@ -16,15 +16,16 @@ RUN apt-get install -y \
         runc \
         sysstat \
         xfsprogs
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
         etcd-client \
-        nginx-extras
+        nginx-extras \
+        openssh-server
 
-FROM ubuntu:bionic AS release
-
-COPY --from=build /usr/bin/man /usr/bin/
-COPY --from=build /usr/share/man /usr/share/man
-COPY --from=build /usr/local/share/man /usr/loca/share/man
+# comment out following when ready to release
+# FROM ubuntu:bionic AS release
+# COPY --from=build /usr/bin/man /usr/bin/
+# COPY --from=build /usr/share/man /usr/share/man
+# COPY --from=build /usr/local/share/man /usr/loca/share/man
 RUN apt-get update && apt-get install -y \
         apt-utils \
         curl \
@@ -33,4 +34,5 @@ RUN apt-get update && apt-get install -y \
         tldr \
         zsh \
         qemu \
-        qemu-kvm
+        qemu-kvm \
+        netplan.io
